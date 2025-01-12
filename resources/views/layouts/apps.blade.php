@@ -105,7 +105,7 @@
     <script src="{{ asset('assets') }}/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="{{ asset('assets') }}/js/plugin/chart.js/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- jQuery Sparkline -->
     <script src="{{ asset('assets') }}/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
@@ -130,33 +130,76 @@
     <script src="{{ asset('assets') }}/js/kaiadmin.min.js"></script>
 
     <script>
-        $('#lineChart').sparkline([102, 109, 120, 99, 110, 105, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#177dff',
-            fillColor: 'rgba(23, 125, 255, 0.14)'
-        });
-
-        $('#lineChart2').sparkline([99, 125, 122, 105, 110, 124, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#f3545d',
-            fillColor: 'rgba(243, 84, 93, .14)'
-        });
-
-        $('#lineChart3').sparkline([105, 103, 123, 100, 95, 105, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#ffa534',
-            fillColor: 'rgba(255, 165, 52, .14)'
+        $(document).ready(function() {
+            $('#arsip-dokumen').DataTable({
+                "paging": true, // Mengaktifkan paging
+                "searching": true, // Mengaktifkan fitur pencarian
+                "ordering": true, // Mengaktifkan pengurutan
+                "info": true, // Menampilkan informasi jumlah data
+                "columnDefs": [{
+                        "targets": [0, 1, 2,
+                            3, 4
+                        ], // Kolom yang bisa diurutkan: Nomor, Nama Dokumen, Nomor Dokumen, Tanggal Pembuatan, Jenis Dokumen
+                        "orderable": true // Mengaktifkan pengurutan pada kolom ini
+                    },
+                    {
+                        "targets": "_all", // Kolom lainnya tidak bisa diurutkan
+                        "orderable": false
+                    }
+                ]
+            });
         });
     </script>
+
+    <script>
+        var ctx = document.getElementById('dokumenChart').getContext('2d');
+        var dataValues = @json($data); // Data untuk jumlah dokumen per jenis
+        var maxValue = Math.max(...dataValues); // Menentukan nilai maksimum dari data untuk sumbu Y
+
+        var dokumenChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($labels), // Data untuk label jenis dokumen
+                datasets: [{
+                    label: 'Jumlah Dokumen',
+                    data: dataValues, // Data untuk jumlah dokumen per jenis
+                    backgroundColor: generateRandomColors(dataValues.length), // Memberikan warna acak
+                    borderColor: '#177dff', // Warna border bar
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true, // Memastikan sumbu X mulai dari 0
+                    },
+                    y: {
+                        beginAtZero: true, // Memastikan sumbu Y mulai dari 0
+                        ticks: {
+                            stepSize: Math.ceil(maxValue / 5), // Menentukan step size
+                            callback: function(value) {
+                                return value % 1 === 0 ? value : Math.floor(value); // Mengubah angka ke bulat
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Fungsi untuk menghasilkan warna acak
+        function generateRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' +
+                    Math.floor(Math.random() * 256) + ',' +
+                    Math.floor(Math.random() * 256) + ')';
+                colors.push(randomColor);
+            }
+            return colors;
+        }
+    </script>
+
 </body>
 
 </html>

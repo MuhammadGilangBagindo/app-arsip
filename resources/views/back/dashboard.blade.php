@@ -9,21 +9,6 @@
                 <h3 class="fw-bold mb-3">Dashboard</h3>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Selamat Datang {{ Auth::user()->name }} di Sistem Informasi Pengelolaan Arsip
-                        Digital Dinas Kependudukan dan Pencatatan Sipil Kota Payakumbuh</h4>
-                </div>
-                <div class="card-body">
-                    <p>Sistem Informasi Pengelolaan Arsip Digital adalah Aplikasi berbasis web yang digunakan untuk
-                        mengelola penyimpanan arsip dokumen administrasi kependudukan dalam bentuk dokumen elektronik.
-                        Aplikasi arsip memberikan efisiensi dan keamanan penyimpanan arsip, serta mempermudah dalam
-                        mencari
-                        informasi arsip.</p>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row">
         <div class="col">
@@ -85,6 +70,15 @@
                 </div>
             </div>
         </div>
-    </div>
 
-@endsection
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Statistik</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="dokumenChart" style="width: 100%; height: 400px;"></canvas>
+                </div>
+            </div>
+        </div>
+    @endsection

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ArsipDokumen;
 use App\Models\JenisDokumen;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ArsipDokumenController extends Controller
@@ -14,10 +16,22 @@ class ArsipDokumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request): \Illuminate\Contracts\View\View
     {
-        $arsipDokumen = ArsipDokumen::with('jenisDokumen')->get();
-        return view('back.arsip_dokumen.index', compact('arsipDokumen'));
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by', 'nama_dokumen');
+        $order = $request->input('order', 'asc');
+
+        $arsipDokumen = ArsipDokumen::with('jenisDokumen')
+            ->when($search, function ($query) use ($search) {
+                $query->where('nama_dokumen', 'like', "%{$search}%")
+                    ->orWhere('nomor_dokumen', 'like', "%{$search}%");
+            })
+            ->orderBy($sortBy, $order)
+            ->get();
+
+        // Mengembalikan tampilan dengan data yang diperlukan
+        return view('back.arsip_dokumen.index', compact('arsipDokumen', 'sortBy', 'order'));
     }
 
     /**
@@ -25,7 +39,7 @@ class ArsipDokumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): \Illuminate\Contracts\View\View
     {
         $jenisDokumen = JenisDokumen::all();
         return view('back.arsip_dokumen.form', compact('jenisDokumen'));
@@ -37,7 +51,7 @@ class ArsipDokumenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'nama_dokumen' => 'required|string|max:255',
@@ -68,7 +82,7 @@ class ArsipDokumenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): \Illuminate\Contracts\View\View
     {
         $arsipDokumen = ArsipDokumen::with('jenisDokumen')->findOrFail($id);
         return view('back.arsip_dokumen.show', compact('arsipDokumen'));
@@ -80,7 +94,7 @@ class ArsipDokumenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): \Illuminate\Contracts\View\View
     {
         $arsipDokumen = ArsipDokumen::findOrFail($id);
         $jenisDokumen = JenisDokumen::all();
@@ -94,7 +108,7 @@ class ArsipDokumenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $request->validate([
             'nama_dokumen' => 'required|string|max:255',
@@ -127,7 +141,7 @@ class ArsipDokumenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $arsipDokumen = ArsipDokumen::findOrFail($id);
 

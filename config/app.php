@@ -211,7 +211,9 @@ return [
     */
 
     'aliases' => [
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Request' => Illuminate\Support\Facades\Request::class,
     ],
 
 ];

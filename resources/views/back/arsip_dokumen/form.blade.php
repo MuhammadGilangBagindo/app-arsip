@@ -56,13 +56,16 @@
 
                     <!-- File -->
                     <div class="form-group">
-                        <label for="file">File Dokumen (Maks. 1.5 MB)</label>
+                        <label for="file">File Dokumen (Maks. 2 MB)</label>
                         <input type="file" class="form-control-file" id="file" name="file" />
                         @if (isset($arsipDokumen) && $arsipDokumen->file)
                             <small class="form-text text-muted">File yang sudah diunggah: <a
                                     href="{{ asset('storage/' . $arsipDokumen->file) }}"
                                     target="_blank">Download</a></small>
                         @endif
+                        @error('file')
+                            <span class="invalid-feedback d-block">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="card-action">

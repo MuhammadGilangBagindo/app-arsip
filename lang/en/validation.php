@@ -163,8 +163,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'file' => [
+            'max' => 'Ukuran :attribute tidak boleh lebih dari 2 MB.',
         ],
     ],
 
@@ -179,6 +179,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'file' => 'File Dokumen',
+    ],
 
 ];

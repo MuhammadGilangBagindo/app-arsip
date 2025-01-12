@@ -25,7 +25,7 @@
                                 baru.</p>
                         </div>
                     @else
-                        <table id="basic-datatables" class="display table table-striped table-hover">
+                        <table id="arsip-dokumen" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>No</th>

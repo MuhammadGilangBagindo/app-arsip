@@ -52,7 +52,7 @@ class LaporanDokumenController extends Controller
             ->get();
 
         // Load view cetak dengan data
-        $pdf = Pdf::loadView('back.laporan.cetak', [
+        $pdf = PDF::loadView('back.laporan.cetak', [
             'arsipDokumen' => $arsipDokumen,
             'jenis_dokumen' => $request->jenis_dokumen,
             'tanggal_awal' => $request->tanggal_awal,
