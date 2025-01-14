@@ -55,6 +55,3 @@ Aplikasi ini merupakan sistem informasi berbasis web yang dirancang untuk memban
    ```bash
    php artisan serve
 Sekarang, aplikasi dapat diakses melalui http://localhost:8000.
-
-## Lisensi
-Proyek ini dilisensikan di bawah MIT License.
