@@ -53,10 +53,13 @@
 
                 <!-- Laporan Menu -->
                 <li class="nav-item {{ Request::is('back/laporan*') ? 'active' : '' }}">
-                    <a href="{{ route('back.laporan.index') }}">
-                        <i class="fas fa-chart-line"></i>
-                        <p>Laporan</p>
-                    </a>
+                    @can('view-laporan')
+                        <!-- Memeriksa apakah pengguna memiliki hak akses untuk melihat laporan -->
+                        <a href="{{ route('back.laporan.index') }}">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Laporan</p>
+                        </a>
+                    @endcan
                 </li>
 
                 <!-- Profil Instansi Menu -->

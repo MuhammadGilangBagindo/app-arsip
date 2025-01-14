@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProfilUserController extends Controller
 {
@@ -35,7 +37,7 @@ class ProfilUserController extends Controller
         ]);
 
         // Debug input jika diperlukan
-        \Log::info('Update Profil Request:', $request->all());
+        Log::info('Update Profil Request:', $request->all());
 
         // Update nama dan email
         $user->name = $request->input('name');
@@ -43,7 +45,7 @@ class ProfilUserController extends Controller
 
         // Update password jika ada
         if ($request->filled('password')) {
-            \Log::info('Password diubah');
+            Log::info('Password diubah');
             $user->password = Hash::make($request->input('password'));
         }
 

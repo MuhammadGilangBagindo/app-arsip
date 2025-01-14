@@ -34,12 +34,20 @@
                     <div class="card bg-white shadow">
                         <div class="card-body">
                             <h3 class="fw-bold text-center mb-4">Login ke SIPAR</h3>
+                            <!-- Tampilkan pesan error jika ada -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    @foreach ($errors->all() as $error)
+                                        {{ $error }}
+                                    @endforeach
+                                </div>
+                            @endif
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" required
-                                        autofocus>
+                                        autofocus value="{{ old('email') }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>

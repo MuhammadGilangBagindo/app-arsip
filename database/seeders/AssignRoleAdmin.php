@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 
 class AssignRoleAdmin extends Seeder
 {
@@ -16,20 +14,15 @@ class AssignRoleAdmin extends Seeder
      */
     public function run(): void
     {
-        // Create the admin user
-        $admin = User::create([
-            'id' => 1,
-            'name' => 'SIPAR Admin',
-            'email' => 'mgilangbagindo@gmail.com',
-            'password' => Hash::make('12345678'),
-            'avatar' => '',
-            'role' => ''
-        ]);
+        $user = User::find(1); // Temukan pengguna dengan ID 1 (atau ID yang sesuai)
+        if ($user) {
+            // Menghapus role 'User' jika ada
+            $user->removeRole('User');
 
-        // Assign the Administrator role
-        $adminRole = Role::where('name', 'Administrator')->first();
-        if ($adminRole) {
-            $admin->assignRole($adminRole);
+            // Menambahkan role 'Administrator'
+            $user->assignRole('Administrator');
+        } else {
+            echo "User with ID 1 not found!";
         }
     }
 }
